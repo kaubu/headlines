@@ -1,21 +1,11 @@
-use eframe::{run_native, epi::App, egui::CentralPanel, NativeOptions};
+mod headlines;
+use headlines::Headlines;
 
-struct Headlines;
-
-impl App for Headlines {
-    fn update(&mut self, ctx: &eframe::egui::CtxRef, frame: &mut eframe::epi::Frame<'_>) {
-        CentralPanel::default().show(ctx, |ui| {
-            ui.label("article text");
-        });
-    }
-
-    fn name(&self) -> &str {
-        "Headlines"
-    }
-}
+use eframe::{run_native, egui::{Vec2}, NativeOptions};
 
 fn main() {
-    let app = Headlines;
-    let win_option = NativeOptions::default();
+    let app = Headlines::new();
+    let mut win_option = NativeOptions::default();
+    win_option.initial_window_size = Some(Vec2::new(540., 960.));
     run_native(Box::new(app), win_option);
 }
