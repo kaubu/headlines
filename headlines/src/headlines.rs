@@ -1,6 +1,6 @@
 use std::borrow::Cow;
 
-use eframe::{egui::{CtxRef, FontDefinitions, FontFamily, Layout, Hyperlink, Separator, Label}};
+use eframe::{egui::{CtxRef, FontDefinitions, FontFamily, Layout, Hyperlink, Separator, Label, TopBottomPanel, self, Button}};
 
 use crate::{PADDING, WHITE, CYAN};
 
@@ -74,6 +74,24 @@ impl Headlines {
             ui.add(Separator::default());
         }
     }
+
+    pub fn render_top_panel(&self, ctx: &CtxRef) {
+        TopBottomPanel::top("top_panel").show(ctx, |ui| {
+            ui.add_space(10.);
+            egui::menu::bar(ui, |ui| {
+                // Logo
+                ui.with_layout(Layout::left_to_right(), |ui| {
+                    ui.add(Label::new("📕").text_style(egui::TextStyle::Heading));
+                });
+
+                // Controls
+                ui.with_layout(Layout::right_to_left(), |ui| {
+                    let close_btn = ui.add(Button::new("❌").text_style(egui::TextStyle::Body));
+                    let refresh_btn = ui.add(Button::new("🔄").text_style(egui::TextStyle::Body));
+                    let theme_btn = ui.add(Button::new("🌙").text_style(egui::TextStyle::Body));
+                });
+            });
+            ui.add_space(10.);
+        });
+    }
 }
-
-
