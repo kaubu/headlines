@@ -1,10 +1,8 @@
 use std::borrow::Cow;
 
-use eframe::{egui::{CtxRef, FontDefinitions, FontFamily, CentralPanel, ScrollArea, Layout, Hyperlink, Separator, Label, Color32}, epi::App};
+use eframe::{egui::{CtxRef, FontDefinitions, FontFamily, Layout, Hyperlink, Separator, Label}};
 
-const PADDING: f32 = 5.0;
-const WHITE: Color32 = Color32::from_rgb(255, 255, 255);
-const CYAN: Color32 = Color32::from_rgb(0, 255, 255);
+use crate::{PADDING, WHITE, CYAN};
 
 struct NewsCardData {
     title: String,
@@ -29,7 +27,7 @@ impl Headlines {
         }
     }
 
-    fn configure_fonts(&self, ctx: &CtxRef) {
+    pub fn configure_fonts(&self, ctx: &CtxRef) {
         // Load font using ctx object
 
         let mut font_def = FontDefinitions::default();
@@ -54,7 +52,7 @@ impl Headlines {
         ctx.set_fonts(font_def);
     }
 
-    fn render_news_cards(&self, ui: &mut eframe::egui::Ui) {
+    pub fn render_news_cards(&self, ui: &mut eframe::egui::Ui) {
         for a in &self.articles {
             ui.add_space(PADDING);
 
@@ -78,25 +76,4 @@ impl Headlines {
     }
 }
 
-impl App for Headlines {
-    fn setup(
-        &mut self, 
-        ctx: &eframe::egui::CtxRef, 
-        _frame: &mut eframe::epi::Frame<'_>, 
-        _storage: Option<&dyn eframe::epi::Storage>
-    ) {
-        self.configure_fonts(ctx);
-    }
-    
-    fn update(&mut self, ctx: &eframe::egui::CtxRef, _frame: &mut eframe::epi::Frame<'_>) {
-        CentralPanel::default().show(ctx, |ui| {
-            ScrollArea::auto_sized().show(ui, |ui| {
-                self.render_news_cards(ui);
-            });
-        });
-    }
 
-    fn name(&self) -> &str {
-        "Headlines"
-    }
-}
